@@ -20,14 +20,14 @@ export const getAllBlogs = async (req, res, next) => {
 export const addBlog = async (req, res, next) => {
   const { title, description, image, user } = req.body;
   let existingUser;
-
   try {
     existingUser = await User.findById(user);
   } catch (err) {
     console.log("error", err);
   }
+  console.log("User ID",existingUser)
   if (!existingUser) {
-    return res.status(400).json({ message: "unable to find User by this ID" });
+    return res.status(400).json({ message: "Unable to find User by this ID" });
   }
 
   const blog = new Blog({
@@ -42,7 +42,7 @@ export const addBlog = async (req, res, next) => {
     await blog.save({ session });
     existingUser.blogs.push(blog);
     await existingUser.save({ session });
-    await session.commitTranscation();
+    await session.commitTransaction();
   } catch (err) {
     console.log("error", err);
     return res.status(500).json({message:err})
