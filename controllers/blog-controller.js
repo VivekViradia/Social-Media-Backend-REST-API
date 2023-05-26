@@ -16,7 +16,7 @@ export const getAllBlogs = async (req, res, next) => {
   return res.status(200).json({ blogs });
 };
 
-// --------
+//----------
 export const addBlog = async (req, res, next) => {
   const { title, description, image, user } = req.body;
   let existingUser;
@@ -89,12 +89,12 @@ export const deleteById = async (req, res, next) => {
   const id = req.params.id;
   let blog;
   try {
-    blog = await Blog.findByIdAndDelete(id);
+    blog = await Blog.findByIdAndRemove(id);
   } catch (err) {
     console.log("Error", err);
   }
   if (!blog) {
-    return res.status(404).json({ message: "Something went worng" });
+    return res.status(404).json({ message: "Unable to Delete Blog" });
   }
-  return res.status(200).json({ blog });
+  return res.status(200).json({ message:"Successfully Blog Deleted" });
 };
